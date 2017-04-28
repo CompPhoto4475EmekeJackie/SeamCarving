@@ -1,22 +1,36 @@
 # Controls the window for seam carving
 
 #
+import sys
+import Tkinter as tk
+from PIL import ImageTk, Image
+from seam_carving import SeamCarver
 
-window = tk.Tk()
-window.title("Join")
-window.geometry("300x300")
-window.configure(background='grey')
-path = "dolphin.jpeg"
+def main(argv):
+    window = tk.Tk()
+    window.title("Seam Carving Example")
 
-#Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
-img = ImageTk.PhotoImage(Image.open(path))
+    #Creates Image from Path
+    # path = "static/dolphin.jpeg"
 
-#The Label widget is a standard Tkinter widget used to display a text or image on the screen.
-panel = tk.Label(window, image = img)
+    # Creates Image from Path specified by input commands
+    img = ImageTk.PhotoImage(Image.open(argv[1]))
 
-#The Pack geometry manager packs widgets in rows or columns.
-panel.pack(side = "bottom", fill = "both", expand = "yes")
+    #Get dimensions for window
+    dimensions = "image size: %dx%d" % (img.width(), img.height())
 
-#Start the GUI
-window.mainloop()
+    label = tk.Label(window, compound="top", image=img, text=dimensions)
+    label.pack()
+    #
+    # # The Label widget is a standard Tkinter widget used to display a text or image on the screen.
+    # panel = tk.Label(window, image=img)
+
+    window.configure(background='grey')
+    window.mainloop()
+
+    pass
+
+if __name__ == "__main__":
+    main(sys.argv)
+
 
