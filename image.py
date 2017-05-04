@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.misc
 import scipy.ndimage
+import cv2
 from PIL import Image as PILImage
 
 
@@ -70,7 +71,19 @@ class Image:
         Based on http://stackoverflow.com/questions/7185655/applying-the-sobel-filter-using-scipy#1
         """
         if not self.sobel_image:
-            greyscale = self.greyscale.astype('int32')
+
+            # greyscale = self.greyscale.astype('int32')
+            
+            #TODO: Add Facial rec here
+            greyscale = self.greyscale.astype(np.uint8)
+
+            face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+            faces = face_cascade.detectMultiScale(greyscale, 1.2, 5)
+            for (x,y,w,h) in faces:
+                cv2.rectangle(greyscale,(x,y),(x+w,y+h),(0,0,0),-1)
+
+            greyscale = greyscale.astype('int32')
+
             dx = scipy.ndimage.sobel(greyscale, 0)  # horizontal derivative
             dy = scipy.ndimage.sobel(greyscale, 1)  # vertical derivative
             self.sobel_image = np.hypot(dx, dy)  # magnitude
