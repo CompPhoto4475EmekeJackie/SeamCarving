@@ -56,8 +56,9 @@ def main():
     masked_img = image.copy()
     hl_color = np.array([0, 1, 0])
 
-    #Compute object detection for faces on greyscale image
-    faces = face_cascade.detectMultiScale(gray, 1.02, 5)
+    # Compute object detection for faces on greyscale image
+    # The scale and neighbors field can be adjusted for certaincases
+    faces = face_cascade.detectMultiScale(gray, 1.075, 5)
 
     # upperbodies = upperbody_cascade.detectMultiScale(gray, 1.2,5)
     # fullbodies = fullbody)cascade.detectMultiScale(gray, 1.2, 5)
